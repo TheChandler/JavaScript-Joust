@@ -37,7 +37,9 @@ function aiController(difficulty){
 	}
 
 	this.updateBird=function(num){
-		this.bird=contestants[num];
-		this.bird.flap();
+		if (player1>-1&&contestants[player1].y>contestants[num].y){
+			this.bird=contestants[num];
+			this.bird.flap();
+		}
 	}
 }

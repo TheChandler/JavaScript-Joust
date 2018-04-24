@@ -10,6 +10,7 @@ function contestant(x,y,type,as){
 	this.faceRight=-1;
 	this.skidTimer=0;
 	this.as=as;
+	this.cords;
 	this.flap=function(){
 		this.flying=true;
 		this.skidTimer=0;
@@ -81,10 +82,10 @@ function contestant(x,y,type,as){
 		return this.y+this.ySpeed;
 	}	
 	this.updatePosition=function(){
-		var cords=[this.nextXPosition(),this.nextYPosition()];
-		if (checkFloor(cords)){
-			if(checkCeiling(cords)){
-				if (!checkSides(cords)){
+		this.cords=[this.nextXPosition(),this.nextYPosition()];
+		if (checkFloor(this.cords)){
+			if(checkCeiling(this.cords)){
+				if (!checkSides(this.cords)){
 					this.xSpeed=-this.xSpeed/2;
 				}
 				this.y+=this.ySpeed;
@@ -93,23 +94,14 @@ function contestant(x,y,type,as){
 				this.ySpeed=-this.ySpeed/1.5;
 			}
 		}else{
-			if(abs(this.xSpeed)>=sprintSpeed){
-				this.state=3;
-			}else if (abs(this.xSpeed)>=runSpeed){
-				this.state=2;
-			}else if(abs(this.xSpeed)>=walkSpeed){
-				this.state=1;
-			}
-			this.state*=posOrNeg(this.xSpeed);
-			this.y=cords[1];
-			this.ySpeed=0;
+			this.setGroundSpeed();
 		}
 
 		this.x+=this.xSpeed;
 		if (checkLine(this.x+contSize*3,this.y+contSize*18+1,this.x+contSize*10,this.y+contSize*18+1)){
 			if (this.flying==false){
 				this.skidTimer=0;
-				this.state=0;
+				this.setGroundSpeed();
 			}
 			this.flying =true;
 		}else{
@@ -118,6 +110,19 @@ function contestant(x,y,type,as){
 		if (!checkInsides()){
 			this.y+=10;
 		}
+	}
+	this.setGroundSpeed=function(){
+		if(abs(this.xSpeed)>=sprintSpeed){
+			this.state=3;
+		}else if (abs(this.xSpeed)>=runSpeed){
+			this.state=2;
+		}else if(abs(this.xSpeed)>=walkSpeed){
+			this.state=1;
+		}
+		this.state*=posOrNeg(this.xSpeed);
+		this.y=this.cords[1];
+		this.ySpeed=0;
+
 	}
 	this.updateWalking=function(){
 		if (this.inputTimer>=0&&this.input=="left"){

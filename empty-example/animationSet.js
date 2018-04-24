@@ -6,7 +6,7 @@ function animationSet(f){
 	this.sprite;
 	this.isFlap=0;
 	this.flap=function(){
-		this.isFlap=5;
+		this.isFlap=7;
 	}
 	this.animate=function(x,y,state,flying,faceRight){
 		if(flying){

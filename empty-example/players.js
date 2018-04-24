@@ -1,4 +1,4 @@
-var player1=-1;
+var player1=null;
 var player2=-1;
 
 
@@ -7,9 +7,9 @@ function setPlayer1(num){
 	print("Player1= "+num);
 }
 function keyPressed(){
-	if (player1>-1){
+	if (player1!=null){
 		if (keyCode==32){
-			contestants[player1].flap();
+			player1.flap();
 		}
 	}else{
 		if(keyCode==32){
@@ -27,13 +27,13 @@ function keyTyped(){
 	}
 }
 function update(){
-	if (player1>-1){
+	if (player1!=null){
 		if (keyIsDown(LEFT_ARROW)){
-			contestants[player1].left();
+			player1.left()
 		}else if (keyIsDown(RIGHT_ARROW)){
-			contestants[player1].right();
+			player1.right();
 		}else{
-			contestants[player1].none();
+			player1.none();
 		}
 	}
 	aiCont.update();

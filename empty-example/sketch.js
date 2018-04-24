@@ -15,22 +15,6 @@ var img;
 function setup() {
 	createCanvas(900,600);
 
-var pink = color(255, 102, 204);
-	img = createImage(66, 66);
-
-img.loadPixels();
-var d = pixelDensity();
-var halfImage = 4 * (width * d) * (height / 2 * d);
-for (var i = 0; i < halfImage; i += 4) {
-  img.pixels[i] = red(pink);
-  img.pixels[i + 1] = green(pink);
-  img.pixels[i + 2] = blue(pink);
-  img.pixels[i + 3] = alpha(pink);
-}
-img.updatePixels();
-image(img, 17, 17);
-
-
 
 	//frameRate(3);
 	pixelDensity(2);
@@ -46,10 +30,8 @@ image(img, 17, 17);
 		   new platform(0,-10,900,10)];
    	setSprite1();
    	aiCont=new aiController();
-   	drawPlatform(100,100);
-	for (var i=0;i<plats.length;i++){
-		plats[i].draw();
-	}
+   	makePlatform();
+	
 }
 function setSprite1(){
 	colors.push(color(0,0));
@@ -196,10 +178,12 @@ function setSprite1(){
 		sprite1=[frame0,frame1,frame2,frame3,frame4,frame5,frame6];
 }
 function draw() {
-	drawBlackBoxes();
+	background(0);
+	for (var i=0;i<plats.length;i++){
+		plats[i].draw();
+	}
 	update();
 	updateContestants();
 	updateEvents();
-image(img, 17, 17);
 
 }
