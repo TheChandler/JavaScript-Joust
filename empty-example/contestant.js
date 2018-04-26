@@ -3,6 +3,8 @@ function contestant(x,y,type,as){
 	this.ySpeed=0;
 	this.x=x;
 	this.y=y;
+	this.width=13*contSize;
+	this.height=18*contSize;
 	this.input="none";
 	this.state=0;
 	this.flying=false;
@@ -14,7 +16,7 @@ function contestant(x,y,type,as){
 	this.flap=function(){
 		this.flying=true;
 		this.skidTimer=0;
-		this.ySpeed-=1.3;
+		this.ySpeed-=1.5;
 		as.flap();
 		if(this.input=="left"){
 			this.xSpeed-=1;
@@ -34,7 +36,7 @@ function contestant(x,y,type,as){
 	}
 	this.bounce=function(){
 		this.state=-this.state;
-		this.xSpeed=-this.xSpeed;
+		this.xSpeed=-this.xSpeed/1.5;
 		this.faceRight*=-1;
 	}
 	this.bounceOff=function(y2){
@@ -55,7 +57,7 @@ function contestant(x,y,type,as){
 				this.xSpeed+=.08;
 				this.faceRight=1;
 			}
-			this.xSpeed=posOrNeg(this.xSpeed)*maxer(abs(this.xSpeed),600);
+			this.xSpeed=posOrNeg(this.xSpeed)*maxer(abs(this.xSpeed),6);
 			this.ySpeed=maxer(this.ySpeed+.06,4.5);
 			this.ySpeed=miner(this.ySpeed,-6);
 	}
@@ -82,36 +84,58 @@ function contestant(x,y,type,as){
 		return this.y+this.ySpeed;
 	}	
 	this.updatePosition=function(){
-		this.cords=[this.nextXPosition(),this.nextYPosition()];
-		if (checkFloor(this.cords)){
-			if(checkCeiling(this.cords)){
-				if (!checkSides(this.cords)){
-					this.xSpeed=-this.xSpeed/2;
-				}
-				this.y+=this.ySpeed;
-			}else{
-				this.xSpeed*=.85;
-				this.ySpeed=-this.ySpeed/1.5;
-			}
-		}else{
-			this.setGroundSpeed();
-		}
-
 		this.x+=this.xSpeed;
-		if (checkLine(this.x+contSize*3,this.y+contSize*18+1,this.x+contSize*10,this.y+contSize*18+1)){
-			if (this.flying==false){
-				this.skidTimer=0;
-				this.setGroundSpeed();
-			}
-			this.flying =true;
-		}else{
-			this.flying=false;
+		this.y+=this.ySpeed;
+		for (var i=0;i<plats.length;i++){
+			this.bottomCheck(plats[i]);
+			this.topCheck(plats[i]);
+			this.sideCheck(plats[i]);
 		}
-		if (!checkInsides()){
-			this.y+=10;
+		if (!this.flying&&this.noFloor()){
+			this.flying=true;
+			print("false Flying");
 		}
 	}
+	this.bottomCheck=function(plat){
+		if(plat.x<this.x+this.width&&plat.x+plat.width>this.x){//if they collide horizontally
+			if (plat.y<this.y+this.height&&plat.y+plat.height>this.y+this.height){//if the bottom collides with the platform 
+				this.flying=false;
+				this.y=plat.y-this.height;
+				this.ySpeed=0;
+				this.setGroundSpeed();
+				print("True walking");
+			}
+		}
+	}
+	this.sideCheck=function(plat){
+		if (plat.x<this.x&&plat.x+plat.width>this.x&&plat.y<this.y+this.height&&plat.y+plat.height>this.y){
+			this.x+=3;
+			this.bounce();
+		}else if (plat.x<this.x+this.width&&plat.x+plat.width>this.x+this.width&&plat.y<this.y+this.height&&plat.y+plat.height>this.y){
+			this.bounce();
+			this.x-=3;
+		}
+	}
+	this.topCheck=function(plat){
+		if (plat.x<this.x+this.width&&plat.x+plat.width>this.x&&plat.y<this.y&&plat.y+plat.height>this.y){
+			this.ySpeed=-this.ySpeed/2
+			this.y+=4;
+		}
+	}
+	this.noFloor=function(){
+		for(var i=0;i<plats.length;i++){
+			if (plats[i].x 				  <this.x+this.width
+			  &&plats[i].x+plats[i].width >this.x
+			  &&plats[i].y 				  <this.y+this.height+1
+			  &&plats[i].y+plats[i].height>this.y+this.height+1
+			  ){
+				return false;
+			}
+		}
+		return true;
+	}
 	this.setGroundSpeed=function(){
+		this.state=0;
 		if(abs(this.xSpeed)>=sprintSpeed){
 			this.state=3;
 		}else if (abs(this.xSpeed)>=runSpeed){
@@ -120,9 +144,6 @@ function contestant(x,y,type,as){
 			this.state=1;
 		}
 		this.state*=posOrNeg(this.xSpeed);
-		this.y=this.cords[1];
-		this.ySpeed=0;
-
 	}
 	this.updateWalking=function(){
 		if (this.inputTimer>=0&&this.input=="left"){
