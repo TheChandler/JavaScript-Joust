@@ -1,10 +1,10 @@
 function aiController(difficulty){
 	switch(difficulty){
 		case "easy":
-			this.inputDelay=10;
+			this.inputDelay=20;
 			break;
 		case "medi":
-			this.inputDelay=8;
+			this.inputDelay=10;
 			break;
 		case "hard":
 			this.inputDelay=6;
@@ -12,34 +12,52 @@ function aiController(difficulty){
 	}
 
 
-	this.birds=new Array();
-	this.addBird=function(num){
-		this.birds.push(num);
+	this.birds=new Array(10);
+	this.nextSpot=0;
+	this.addBird=function(bird){
+		i=0;
+		while (this.birds[i]!=null){
+			i++;
+		}
+		this.birds[i]=bird;
+		ran=random(3);
+		if(ran>2){
+			this.birdBars[i]=80;
+		}else if(ran>1){
+			this.birdBars[i]=200;
+		}else{
+			this.birdBars[i]=350;
+		}
 	}
 	this.remove=function(num){
 		for (var i=0;i<this.birds.length;i++){
 			print(this.birds[i]+" "+num);
 			if(this.birds[i]==num){
-
-				this.removeBird(i);
+				this.birds[i]=null;
 			}
 		}
 	}
-	this.removeBird=function(num){
-		this.birds=removeFromArray(this.birds,num);
-	}
-
-
+	this.time=0;
+	this.birdTimes=[0,0,0,0,0,0,0,0,0,0];
+	this.birdBars=new Array(10);
 	this.update=function(){
+		this.time++;
 		for (var i=0;i<this.birds.length;i++){
-			this.updateBird(this.birds[i]);
+			if (this.birds[i]!=null){
+						this.updateBird(i);
+			}
 		}
 	}
-
-	this.updateBird=function(num){
-		if (player1>-1&&contestants[player1].y>contestants[num].y){
-			this.bird=contestants[num];
-			this.bird.flap();
+	this.updateBird=function(i){
+		if (this.time-this.birdTimes[i]>this.inputDelay&&this.birds[i].y>this.birdBars[i]){
+			this.birds[i].flap();
+			this.birdTimes[i]=this.time;
+		}else{
+			this.birds[i].left();
 		}
+		this.birds[i].update();
 	}
+}
+function spawnEn(){
+	aiCont.addBird(new contestant(100,100,"enemy",new animationSet(sprite1)));
 }

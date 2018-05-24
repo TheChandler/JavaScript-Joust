@@ -1,4 +1,4 @@
-
+		
 function animationSet(f){
 	this.frames=f;
 	this.frame=0;
@@ -45,7 +45,7 @@ function animationSet(f){
 					this.frame++;
 					this.frame%=4;
 					this.count-=6;
-			}	
+			}
 		}
 	}
 
@@ -53,24 +53,10 @@ function animationSet(f){
 		this.sprite=this.frames[this.frame];
 	}
 
-	this.drawSprite=function(x,y,flipped){
+	this.drawSprite=function(x,y,flipped){//flipped is either -1 or 1. not a boolean
 
-		var width=contSize*13;
+		var width=contSize*13*flipped;
 		var height=contSize*18;
-		if (flipped==-1){
-			for (var i =0;i<18;i++){
-				for (var j=0;j<13;j++){
-					fill(colors[this.sprite[i*13+j]]);
-					rect(x+(13*contSize)-width/13*j,y+height/18*i,width/13,height/18);//Should probably be divided by 13 and 18, but then you can see the lines between the pixels sometimes
-				}
-			}			
-		}else{
-			for (var i =0;i<18;i++){
-				for (var j=0;j<13;j++){
-					fill(colors[this.sprite[i*13+j]]);
-					rect(x+width/13*j,y+height/18*i,width/13,height/18);//Should probably be divided by 13 and 18, but then you can see the lines between the pixels sometimes
-				}
-			}	
-		}
+		image(this.sprite,x,y,width,height);
 	}
 }

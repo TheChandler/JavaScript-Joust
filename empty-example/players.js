@@ -17,6 +17,7 @@ function keyPressed(){
 		}
 	}
 }
+show=true;
 function keyTyped(){
 	if (key=='o'){
 		spawnEn();
@@ -24,6 +25,8 @@ function keyTyped(){
 	 	frameRate(1);
 	}else if(key=='k'){
 		frameRate(60);
+	}else if(key=='i'){
+		show=!show;
 	}
 }
 function update(){

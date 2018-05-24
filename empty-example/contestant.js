@@ -3,6 +3,7 @@ function contestant(x,y,type,as){
 	this.ySpeed=0;
 	this.x=x;
 	this.y=y;
+	this.type=type;
 	this.width=13*contSize;
 	this.height=18*contSize;
 	this.input="none";
@@ -69,7 +70,10 @@ function contestant(x,y,type,as){
 		}
 		this.updatePosition();
 		this.teleportBird();
-		this.as.animate(this.x,this.y,this.state,this.flying,this.faceRight);
+		
+		if(show){
+			this.as.animate(this.x,this.y,this.state,this.flying,this.faceRight);
+		}
 	}
 	this.teleportBird=function(){
 		if (this.x<0||this.x>900){
@@ -229,16 +233,4 @@ function contestant(x,y,type,as){
 				print("Unusual state "+this.state);
 		}
 	}
-}
-
- 
-function makeBirdRed(){
-		colors[1]=color(255,190,0);
-		colors[2]=color(255,30,30);
-		colors[3]=color(180,0,0,);
-}
-function makeBirdBlue(){
-		colors[1]=color(180,210,10);
-		colors[2]=color(30,30,250);
-		colors[3]=color(0,0,180);
 }
