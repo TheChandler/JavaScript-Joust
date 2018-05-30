@@ -43,11 +43,16 @@ function contestant(x,y,type,as){
 	this.bounceOff=function(y2){
 		var dif=y2-this.y;
 		if (dif<contSize*2){
-			this.xSpeed=-this.xSpeed/1.7;
+			this.xSpeed=-this.xSpeed/1.25;
 		}else if (dif<contSize*14){
-			this.xSpeed=-this.xSpeed/2.5;
+			if (this.xSpeed>0){
+				this.xSpeed-=4;
+			}else{
+				this.xSpeed+=4;
+			}
+			this.ySpeed-=1.5;
 		}else{
-			this.ySpeed=-this.ySpeed/2;
+			this.ySpeed-=2.5;
 		}
 	}
 	this.updateFlying=function(){

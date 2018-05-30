@@ -54,9 +54,21 @@ function animationSet(f){
 	}
 
 	this.drawSprite=function(x,y,flipped){//flipped is either -1 or 1. not a boolean
-
-		var width=contSize*13*flipped;
+		if (x>900-13*2.5){
+			this.drawSprite(x-900,y,flipped);
+		}
+		var width=contSize*13;
 		var height=contSize*18;
-		image(this.sprite,x,y,width,height);
+		if (flipped==-1){
+			print("Flipped");
+			push();
+			translate(width+x*2,0);
+			scale(-1,1);
+			image(this.sprite,x,y,width,height);
+			pop();
+		}else{
+			image(this.sprite,x,y,width,height);
+		}
+
 	}
 }

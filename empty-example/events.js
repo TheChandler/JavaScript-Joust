@@ -13,12 +13,12 @@ function event(name){
 }
 function drawSpawnPlayer1(){
 	fill(248,248,0);
-	rect(100,100,13*contSize,18*contSize);
+	rect(364,230,13*contSize,18*contSize);
 }
 function updateEvents(){
 	for (var i=0;i<events.length;i++){
 		if (millis()-events[i].time>events[i].length){
-			spawnP1();
+			player1=new contestant(364,230,"player",new animationSet(sprite1));
 			events=	concat(subset(events,0,i),subset(events,i+1,events.length-i-1));
 		}else{
 			events[i].drawThis();

@@ -38,6 +38,7 @@ function update(){
 		}else{
 			player1.none();
 		}
+		player1.update();
 	}
 	aiCont.update();
 }

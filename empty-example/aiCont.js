@@ -52,12 +52,45 @@ function aiController(difficulty){
 		if (this.time-this.birdTimes[i]>this.inputDelay&&this.birds[i].y>this.birdBars[i]){
 			this.birds[i].flap();
 			this.birdTimes[i]=this.time;
-		}else{
-			this.birds[i].left();
 		}
+		this.birds[i].left();
 		this.birds[i].update();
+		if (player1!=null){
+			this.checkCollision(i);
+		}
 	}
+	this.checkCollision=function(i){
+		if (this.birds[i].x<player1.x+player1.width&&this.birds[i].x+this.birds[i].width>player1.x&&this.birds[i].y<player1.y+player1.height&&this.birds[i].y+this.birds[i].height>player1.y){
+			if (this.birds[i].y>player1.y){
+				player1.bounceOff(this.birds[i].y);
+				this.birds[i]=null;
+			}else{
+				this.birds[i].bounceOff(player1.y);
+				player1=null;
+			}
+		}
+	}
+
 }
 function spawnEn(){
-	aiCont.addBird(new contestant(100,100,"enemy",new animationSet(sprite1)));
+	ran=random(5);
+	var spawnX,spawnY;
+	print(ran);
+	if (ran>=4){
+		spawnX=99;
+		spawnY=400;
+	}else if (ran>=3){
+		spawnX=700;
+		spawnY=400;
+	}else if (ran>=2){
+		spawnX=370;
+		spawnY=270;
+	}else if (ran>=1){
+		spawnX=790;
+		spawnY=150;
+	}else if (ran>=0){
+		spawnX=44;
+		spawnY=150;
+	}
+	aiCont.addBird(new contestant(spawnX,spawnY-18*2.5,"enemy",new animationSet(sprite1)));
 }

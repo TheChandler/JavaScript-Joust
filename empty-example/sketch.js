@@ -17,7 +17,7 @@ function setup() {
 	createCanvas(900,600);
 
 
-	frameRate(1);
+	//frameRate(1);
 	pixelDensity(2);
 	noStroke();
 	noSmooth();
@@ -30,7 +30,7 @@ function setup() {
 		   new platform(250,275,350,10),
 		   new platform(0,-10,900,10)];
    	
-   	aiCont=new aiController("easy");
+   	aiCont=new aiController("hard");
    	makePlatform();
 	makePlayer();
 }
@@ -40,7 +40,10 @@ function draw() {
 		plats[i].draw();
 	}
 	update();
-	updateContestants();
 	updateEvents();
 
+}
+
+function mousePressed(){
+	print(mouseX+" "+mouseY);
 }
