@@ -62,14 +62,17 @@ function aiController(difficulty){
 	this.checkCollision=function(i){
 		if (this.birds[i].x<player1.x+player1.width&&this.birds[i].x+this.birds[i].width>player1.x&&this.birds[i].y<player1.y+player1.height&&this.birds[i].y+this.birds[i].height>player1.y){
 			if (this.birds[i].y>player1.y){
-				player1.bounceOff(this.birds[i].y);
+				print("Player1 wins");
+				player1.bounceOff(this.birds[i].y,this.birds[i].x);
 				this.birds[i]=null;
 			}else if (this.birds[i].y<player1.y){
-				this.birds[i].bounceOff(player1.y);
+				print("birds[i] wins");
+				//this.birds[i].bounceOff(player1.y,player1.x);
 				player1=null;
 			}else{
-				this.birds[i].bounceOff(player1.y);
-				player1.bounceOff(this.birds[i].y);
+				print("neither wins!");
+				this.birds[i].bounceOff(player1.y,player1.x);
+				player1.bounceOff(this.birds[i].y,this.birds[i].x);
 			}
 			sounds.playDeath();
 		}

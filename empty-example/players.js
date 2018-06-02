@@ -23,7 +23,7 @@ function keyTyped(){
 	if (key=='o'){
 		spawnEn();
 	}else if (key=='j'){
-	 	frameRate(1);
+	 	frameRate(3);
 	}else if(key=='k'){
 		frameRate(60);
 	}else if(key=='i'){

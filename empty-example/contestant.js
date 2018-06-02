@@ -16,6 +16,7 @@ function contestant(x,y,type,as){
 	this.cords;
 	this.flap=function(){
 		this.flying=true;
+		this.height=10*contSize;
 		this.skidTimer=0;
 		this.ySpeed-=1.5;
 		as.flap();
@@ -40,19 +41,23 @@ function contestant(x,y,type,as){
 		this.xSpeed=-this.xSpeed/1.5;
 		this.faceRight*=-1;
 	}
-	this.bounceOff=function(y2){
+	this.bounceOff=function(y2,x2){
 		var dif=y2-this.y;
-		if (dif<contSize*2){
-			this.xSpeed=-this.xSpeed/1.25;
-		}else if (dif<contSize*14){
-			if (this.xSpeed>0){
-				this.xSpeed-=4;
+		if (dif>9*contSize){
+			this.ySpeed-=3;
+		}else if (dif>4*contSize){
+			this.ySpeed-=2.12+abs(this.ySpeed/2);
+			if (x2>this.x){
+				this.xSpeed-=2.12+abs(this.xSpeed/2);
 			}else{
-				this.xSpeed+=4;
+				this.xSpeed+=2.12+abs(this.xSpeed/2);
 			}
-			this.ySpeed-=1.5;
 		}else{
-			this.ySpeed-=2.5;
+			if (x2>this.x){
+				this.xSpeed-=3+abs(this.xSpeed/2);
+			}else{
+				this.xSpeed+=3+abs(this.xSpeed/2);
+			}
 		}
 	}
 	this.updateFlying=function(){
@@ -96,9 +101,11 @@ function contestant(x,y,type,as){
 		this.x+=this.xSpeed;
 		this.y+=this.ySpeed;
 		for (var i=0;i<plats.length;i++){
-			this.bottomCheck(plats[i]);
+			if (!this.bottomCheck(plats[i])){
+				this.sideCheck(plats[i]);
+			}
 			this.topCheck(plats[i]);
-			this.sideCheck(plats[i]);
+			this.floorCheck(plats[i]);
 		}
 		if (!this.flying&&this.noFloor()){
 			this.flying=true;
@@ -108,11 +115,19 @@ function contestant(x,y,type,as){
 	this.bottomCheck=function(plat){
 		if(plat.x<this.x+this.width&&plat.x+plat.width>this.x){//if they collide horizontally
 			if (plat.y<this.y+this.height&&plat.y+plat.height>this.y+this.height){//if the bottom collides with the platform 
+				this.ySpeed=-1;
+				return true;
+			}
+		}
+	}
+	this.floorCheck=function(plat){
+		if(plat.x<this.x+this.width&&plat.x+plat.width>this.x){//if they collide horizontally
+			if (plat.y<this.y+18*contSize&&plat.y+plat.height>this.y+18*contSize){//if the bottom collides with the platform 
 				this.flying=false;
+				this.height=18*contSize;
 				this.y=plat.y-this.height;
 				this.ySpeed=0;
 				this.setGroundSpeed();
-				print("True walking");
 			}
 		}
 	}
@@ -166,6 +181,7 @@ function contestant(x,y,type,as){
 		switch(this.state){
 			case 3:
 				if (this.input=="left"){
+					sounds.playSkid();
 					this.state=.5;
 					this.skidTimer=-skidTime;
 				}
@@ -188,6 +204,7 @@ function contestant(x,y,type,as){
 				break;
 			case -3:
 				if (this.input=="right"){
+					sounds.playSkid();
 					this.state=-.5;
 					this.skidTimer=skidTime;
 				}

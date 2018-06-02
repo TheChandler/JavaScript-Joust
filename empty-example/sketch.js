@@ -15,9 +15,6 @@ var aiCont;
 var img;
 var sounds;
 function preload(){
-	soundFormats('wav');
-	flap=new Audio('sounds/joust_flap.wav');
-	death=new Audio('sounds/DEATH.wav');
 }
 function setup() {
 	frameRate(60);
@@ -37,12 +34,11 @@ function setup() {
 		   new platform(250,275,350,10),
 		   new platform(0,-10,900,10)];
    	
-   	aiCont=new aiController("hard");
+   	aiCont=new aiController("easy");
    	makePlatform();
 	makePlayer();
 }
 function draw() {
-	print(frameRate());
 	background(0);
 	for (var i=0;i<plats.length;i++){
 		plats[i].draw();
