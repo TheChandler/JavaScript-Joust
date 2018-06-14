@@ -12,7 +12,6 @@ function keyPressed(){
 		if (keyCode==32){
 			player1.flap();
 			sounds.playFlap();
-			sounds.playEgg();
 		}
 	}else{
 		if(keyCode==32){
