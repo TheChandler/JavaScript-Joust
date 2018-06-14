@@ -14,6 +14,7 @@ function contestant(x,y,type,as){
 	this.skidTimer=0;
 	this.as=as;
 	this.cords;
+	this.maxSpeed=6;
 	this.flap=function(){
 		this.flying=true;
 		this.height=10*contSize;
@@ -52,12 +53,14 @@ function contestant(x,y,type,as){
 			}else{
 				this.xSpeed+=2.12+abs(this.xSpeed/2);
 			}
-		}else{
+		}else if (dif>0){
 			if (x2>this.x){
 				this.xSpeed-=3+abs(this.xSpeed/2);
 			}else{
 				this.xSpeed+=3+abs(this.xSpeed/2);
 			}
+		}else{
+			this.xSpeed*=-1;
 		}
 	}
 	this.updateFlying=function(){
@@ -68,7 +71,7 @@ function contestant(x,y,type,as){
 				this.xSpeed+=.08;
 				this.faceRight=1;
 			}
-			this.xSpeed=posOrNeg(this.xSpeed)*maxer(abs(this.xSpeed),6);
+			this.xSpeed=posOrNeg(this.xSpeed)*maxer(abs(this.xSpeed),this.maxSpeed);
 			this.ySpeed=maxer(this.ySpeed+.06,4.5);
 			this.ySpeed=miner(this.ySpeed,-6);
 	}
@@ -109,7 +112,6 @@ function contestant(x,y,type,as){
 		}
 		if (!this.flying&&this.noFloor()){
 			this.flying=true;
-			print("false Flying");
 		}
 	}
 	this.bottomCheck=function(plat){

@@ -6,18 +6,25 @@ function setPlayer1(num){
 	player1=num;
 	print("Player1= "+num);
 }
+
 function keyPressed(){
 	if (player1!=null){
 		if (keyCode==32){
 			player1.flap();
 			sounds.playFlap();
+			sounds.playEgg();
 		}
 	}else{
 		if(keyCode==32){
-			events.push(new event("SpawnPlayer1"));
+			if (spawnTimer.get()>1000){
+				events.push(new event("SpawnPlayer1"));
+				spawnTimer.set();
+			}
 		}
 	}
 }
+
+
 show=true;
 function keyTyped(){
 	if (key=='o'){
@@ -28,6 +35,8 @@ function keyTyped(){
 		frameRate(60);
 	}else if(key=='i'){
 		show=!show;
+	}else if(key=='p'){
+		eggs.pop(2);
 	}
 }
 function update(){

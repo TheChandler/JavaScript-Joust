@@ -3,6 +3,7 @@ function sounds(){
 	flap=new Audio('sounds/joust_flap.wav');
 	death=new Audio('sounds/DEATH.wav');
 	skid=new Audio('sounds/joust_break2.wav');
+	eggSound=new Audio('eggGet.wav');
 	this.playFlap=function(){
 		flap.play();
 	}
@@ -11,5 +12,8 @@ function sounds(){
 	}
 	this.playSkid=function(){
 		skid.play();
+	}
+	this.playEgg=function(){
+		eggSound.play();
 	}
 }

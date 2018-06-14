@@ -62,15 +62,14 @@ function aiController(difficulty){
 	this.checkCollision=function(i){
 		if (this.birds[i].x<player1.x+player1.width&&this.birds[i].x+this.birds[i].width>player1.x&&this.birds[i].y<player1.y+player1.height&&this.birds[i].y+this.birds[i].height>player1.y){
 			if (this.birds[i].y>player1.y){
-				print("Player1 wins");
 				player1.bounceOff(this.birds[i].y,this.birds[i].x);
+				makeEgg(this.birds[i].x+13*contSize/2,this.birds[i].y+18*contSize/2,this.birds[i].xSpeed);
+				enemyCount--;
 				this.birds[i]=null;
 			}else if (this.birds[i].y<player1.y){
-				print("birds[i] wins");
-				//this.birds[i].bounceOff(player1.y,player1.x);
+				this.birds[i].bounceOff(player1.y,player1.x);
 				player1=null;
 			}else{
-				print("neither wins!");
 				this.birds[i].bounceOff(player1.y,player1.x);
 				player1.bounceOff(this.birds[i].y,this.birds[i].x);
 			}
@@ -80,24 +79,37 @@ function aiController(difficulty){
 
 }
 function spawnEn(){
+	enemyCount++;
 	ran=random(5);
 	var spawnX,spawnY;
-	print(ran);
 	if (ran>=4){
-		spawnX=99;
-		spawnY=400;
+		events.push(new event("Enemy1"));
 	}else if (ran>=3){
-		spawnX=700;
-		spawnY=400;
+		events.push(new event("Enemy2"));
 	}else if (ran>=2){
-		spawnX=370;
-		spawnY=270;
+		events.push(new event("Enemy3"));
 	}else if (ran>=1){
-		spawnX=790;
-		spawnY=150;
+		events.push(new event("Enemy4"));
 	}else if (ran>=0){
-		spawnX=44;
-		spawnY=150;
+		events.push(new event("Enemy5"));
 	}
-	aiCont.addBird(new contestant(spawnX,spawnY-18*2.5,"enemy",new animationSet(sprite1)));
+}
+function spawnEnemy(i){
+	switch (i){
+		case 1:
+			aiCont.addBird(new contestant(99,400-18*2.5,"enemy",new animationSet(sprite2)));
+			break;
+		case 2:
+			aiCont.addBird(new contestant(700,400-18*2.5,"enemy",new animationSet(sprite2)));
+			break;
+		case 3:
+			aiCont.addBird(new contestant(370,270-18*2.5,"enemy",new animationSet(sprite2)));
+			break;
+		case 4:
+			aiCont.addBird(new contestant(790,150-18*2.5,"enemy",new animationSet(sprite2)));
+			break;
+		case 5:
+			aiCont.addBird(new contestant(44,150-18*2.5,"enemy",new animationSet(sprite2)));
+			break;
+	}
 }

@@ -60,7 +60,6 @@ function animationSet(f){
 		var width=contSize*13;
 		var height=contSize*18;
 		if (flipped==-1){
-			print("Flipped");
 			push();
 			translate(width+x*2,0);
 			scale(-1,1);

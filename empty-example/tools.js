@@ -34,3 +34,12 @@ function removeFromArray(arr,num){
 	arr=concat(subset(arr,0,num),subset(arr,num+1,arr.length-num-1));
 	return arr;
 }
+function timer(){
+	var time=millis();
+	this.set=function(){
+		time=millis();
+	}
+	this.get=function(){
+		return millis()-time;
+	}
+}
